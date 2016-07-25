@@ -1,0 +1,5 @@
+install -m 0755 -d %{buildroot}%{_includedir}/
+install -m 0755 -d %{buildroot}%{_libdir}/
+
+install -m644 include/libnetlink.h %{buildroot}%{_includedir}/
+install -m644 lib/libnetlink.a %{buildroot}%{_libdir}/

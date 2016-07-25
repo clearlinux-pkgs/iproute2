@@ -4,7 +4,7 @@
 #
 Name     : iproute2
 Version  : 4.3.0
-Release  : 24
+Release  : 25
 URL      : https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-4.3.0.tar.xz
 Source0  : https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-4.3.0.tar.xz
 Summary  : No detailed summary available
@@ -42,6 +42,18 @@ Group: Data
 data components for the iproute2 package.
 
 
+%package dev
+Summary: dev components for the iproute2 package.
+Group: Development
+Requires: iproute2-lib
+Requires: iproute2-bin
+Requires: iproute2-data
+Provides: iproute2-devel
+
+%description dev
+dev components for the iproute2 package.
+
+
 %package doc
 Summary: doc components for the iproute2 package.
 Group: Documentation
@@ -64,7 +76,10 @@ lib components for the iproute2 package.
 %patch1 -p1
 
 %build
+export LANG=C
 export CFLAGS="$CFLAGS -Os -ffunction-sections "
+export FCFLAGS="$CFLAGS -Os -ffunction-sections "
+export FFLAGS="$CFLAGS -Os -ffunction-sections "
 export CXXFLAGS="$CXXFLAGS -Os -ffunction-sections "
 %configure --disable-static
 make V=1  %{?_smp_mflags}
@@ -72,6 +87,12 @@ make V=1  %{?_smp_mflags}
 %install
 rm -rf %{buildroot}
 %make_install
+## make_install_append content
+install -m 0755 -d %{buildroot}%{_includedir}/
+install -m 0755 -d %{buildroot}%{_libdir}/
+install -m644 include/libnetlink.h %{buildroot}%{_includedir}/
+install -m644 lib/libnetlink.a %{buildroot}%{_libdir}/
+## make_install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -110,6 +131,11 @@ rm -rf %{buildroot}
 /usr/share/defaults/iproute2/rt_realms
 /usr/share/defaults/iproute2/rt_scopes
 /usr/share/defaults/iproute2/rt_tables
+
+%files dev
+%defattr(-,root,root,-)
+/usr/include/*.h
+/usr/lib64/*.a
 
 %files doc
 %defattr(-,root,root,-)
