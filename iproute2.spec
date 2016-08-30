@@ -4,7 +4,7 @@
 #
 Name     : iproute2
 Version  : 4.3.0
-Release  : 25
+Release  : 26
 URL      : https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-4.3.0.tar.xz
 Source0  : https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-4.3.0.tar.xz
 Summary  : No detailed summary available
@@ -16,6 +16,7 @@ Requires: iproute2-doc
 Requires: iproute2-lib
 BuildRequires : bison
 BuildRequires : db-dev
+BuildRequires : elfutils-dev
 BuildRequires : flex
 BuildRequires : pkgconfig(xtables)
 Patch1: stateless.patch
@@ -77,10 +78,10 @@ lib components for the iproute2 package.
 
 %build
 export LANG=C
-export CFLAGS="$CFLAGS -Os -ffunction-sections "
-export FCFLAGS="$CFLAGS -Os -ffunction-sections "
-export FFLAGS="$CFLAGS -Os -ffunction-sections "
-export CXXFLAGS="$CXXFLAGS -Os -ffunction-sections "
+export CFLAGS="$CFLAGS -ffunction-sections -Os "
+export FCFLAGS="$CFLAGS -ffunction-sections -Os "
+export FFLAGS="$CFLAGS -ffunction-sections -Os "
+export CXXFLAGS="$CXXFLAGS -ffunction-sections -Os "
 %configure --disable-static
 make V=1  %{?_smp_mflags}
 
