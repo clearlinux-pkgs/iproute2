@@ -24,19 +24,6 @@ index 67176be..b3b58ef 100644
  DATADIR?=$(PREFIX)/share
  DOCDIR?=$(DATADIR)/doc/iproute2
  MANDIR?=$(DATADIR)/man
-diff --git a/lib/rt_names.c b/lib/rt_names.c
-index e87c65d..a5c1927 100644
---- a/lib/rt_names.c
-+++ b/lib/rt_names.c
-@@ -24,7 +24,7 @@
- #include "rt_names.h"
- 
- #ifndef CONFDIR
--#define CONFDIR "/etc/iproute2"
-+#define CONFDIR "/usr/share/defaults/iproute2"
- #endif
- 
- #define NAME_MAX_LEN 512
 diff --git a/tc/m_ematch.c b/tc/m_ematch.c
 index 4c3acf8..8ebd1e8 100644
 --- a/tc/m_ematch.c
