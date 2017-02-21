@@ -5,3 +5,4 @@
 bison
 flex
 db-dev
+libmnl-dev

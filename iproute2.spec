@@ -4,18 +4,21 @@
 #
 Name     : iproute2
 Version  : 4.10.0
-Release  : 33
+Release  : 34
 URL      : https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-4.10.0.tar.xz
 Source0  : https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-4.10.0.tar.xz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0
 Requires: iproute2-bin
+Requires: iproute2-lib
 Requires: iproute2-data
 Requires: iproute2-doc
 BuildRequires : bison
 BuildRequires : db-dev
 BuildRequires : flex
+BuildRequires : libmnl-dev
+BuildRequires : pkgconfig(xtables)
 Patch1: stateless.patch
 
 %description
@@ -43,6 +46,7 @@ data components for the iproute2 package.
 %package dev
 Summary: dev components for the iproute2 package.
 Group: Development
+Requires: iproute2-lib
 Requires: iproute2-bin
 Requires: iproute2-data
 Provides: iproute2-devel
@@ -59,13 +63,22 @@ Group: Documentation
 doc components for the iproute2 package.
 
 
+%package lib
+Summary: lib components for the iproute2 package.
+Group: Libraries
+Requires: iproute2-data
+
+%description lib
+lib components for the iproute2 package.
+
+
 %prep
 %setup -q -n iproute2-4.10.0
 %patch1 -p1
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1487698606
+export SOURCE_DATE_EPOCH=1487698754
 export CFLAGS="$CFLAGS -Os -ffunction-sections "
 export FCFLAGS="$CFLAGS -Os -ffunction-sections "
 export FFLAGS="$CFLAGS -Os -ffunction-sections "
@@ -74,7 +87,7 @@ export CXXFLAGS="$CXXFLAGS -Os -ffunction-sections "
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1487698606
+export SOURCE_DATE_EPOCH=1487698754
 rm -rf %{buildroot}
 %make_install
 ## make_install_append content
@@ -96,6 +109,7 @@ install -m644 lib/libnetlink.a %{buildroot}%{_libdir}/
 %exclude /usr/bin/arpd
 /usr/bin/bridge
 /usr/bin/ctstat
+/usr/bin/devlink
 /usr/bin/genl
 /usr/bin/ifcfg
 /usr/bin/ifstat
@@ -110,6 +124,7 @@ install -m644 lib/libnetlink.a %{buildroot}%{_libdir}/
 /usr/bin/rtstat
 /usr/bin/ss
 /usr/bin/tc
+/usr/bin/tipc
 
 %files data
 %defattr(-,root,root,-)
@@ -136,3 +151,8 @@ install -m644 lib/libnetlink.a %{buildroot}%{_libdir}/
 %doc /usr/share/man/man3/*
 %doc /usr/share/man/man7/*
 %doc /usr/share/man/man8/*
+
+%files lib
+%defattr(-,root,root,-)
+/usr/lib/tc/m_ipt.so
+/usr/lib/tc/m_xt.so
