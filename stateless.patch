@@ -21,9 +21,9 @@ index 67176be..b3b58ef 100644
  SBINDIR?=/sbin
 -CONFDIR?=/etc/iproute2
 +CONFDIR?=$(DATADIR)/defaults/iproute2
+ NETNS_RUN_DIR?=/var/run/netns
+ NETNS_ETC_DIR?=/etc/netns
  DATADIR?=$(PREFIX)/share
- DOCDIR?=$(DATADIR)/doc/iproute2
- MANDIR?=$(DATADIR)/man
 diff --git a/tc/m_ematch.c b/tc/m_ematch.c
 index 4c3acf8..8ebd1e8 100644
 --- a/tc/m_ematch.c
