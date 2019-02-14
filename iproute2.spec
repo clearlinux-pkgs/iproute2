@@ -4,7 +4,7 @@
 #
 Name     : iproute2
 Version  : 4.20.0
-Release  : 50
+Release  : 51
 URL      : https://mirrors.kernel.org/pub/linux/utils/net/iproute2/iproute2-4.20.0.tar.xz
 Source0  : https://mirrors.kernel.org/pub/linux/utils/net/iproute2/iproute2-4.20.0.tar.xz
 Summary  : No detailed summary available
