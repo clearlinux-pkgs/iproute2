@@ -4,7 +4,7 @@
 #
 Name     : iproute2
 Version  : 4.20.0
-Release  : 51
+Release  : 52
 URL      : https://mirrors.kernel.org/pub/linux/utils/net/iproute2/iproute2-4.20.0.tar.xz
 Source0  : https://mirrors.kernel.org/pub/linux/utils/net/iproute2/iproute2-4.20.0.tar.xz
 Summary  : No detailed summary available
@@ -16,7 +16,6 @@ Requires: iproute2-lib = %{version}-%{release}
 Requires: iproute2-license = %{version}-%{release}
 Requires: iproute2-man = %{version}-%{release}
 BuildRequires : bison
-BuildRequires : db-dev
 BuildRequires : flex
 BuildRequires : libmnl-dev
 BuildRequires : pkgconfig(xtables)
@@ -42,7 +41,6 @@ Summary: bin components for the iproute2 package.
 Group: Binaries
 Requires: iproute2-data = %{version}-%{release}
 Requires: iproute2-license = %{version}-%{release}
-Requires: iproute2-man = %{version}-%{release}
 
 %description bin
 bin components for the iproute2 package.
@@ -62,7 +60,9 @@ Group: Development
 Requires: iproute2-lib = %{version}-%{release}
 Requires: iproute2-bin = %{version}-%{release}
 Requires: iproute2-data = %{version}-%{release}
+Requires: iproute2-man = %{version}-%{release}
 Provides: iproute2-devel = %{version}-%{release}
+Requires: iproute2 = %{version}-%{release}
 
 %description dev
 dev components for the iproute2 package.
@@ -75,14 +75,6 @@ Requires: iproute2-man = %{version}-%{release}
 
 %description doc
 doc components for the iproute2 package.
-
-
-%package extras
-Summary: extras components for the iproute2 package.
-Group: Default
-
-%description extras
-extras components for the iproute2 package.
 
 
 %package lib
@@ -120,7 +112,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1547050297
+export SOURCE_DATE_EPOCH=1551152198
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -132,7 +124,7 @@ export CXXFLAGS="$CXXFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1547050297
+export SOURCE_DATE_EPOCH=1551152198
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/iproute2
 cp COPYING %{buildroot}/usr/share/package-licenses/iproute2/COPYING
@@ -153,7 +145,6 @@ install -m644 lib/libnetlink.a %{buildroot}%{_libdir}/
 
 %files bin
 %defattr(-,root,root,-)
-%exclude /usr/bin/arpd
 /usr/bin/bridge
 /usr/bin/ctstat
 /usr/bin/devlink
@@ -197,10 +188,6 @@ install -m644 lib/libnetlink.a %{buildroot}%{_libdir}/
 %files doc
 %defattr(0644,root,root,0755)
 %doc /usr/share/doc/iproute2/*
-
-%files extras
-%defattr(-,root,root,-)
-/usr/bin/arpd
 
 %files lib
 %defattr(-,root,root,-)
