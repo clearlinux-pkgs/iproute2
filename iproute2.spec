@@ -4,7 +4,7 @@
 #
 Name     : iproute2
 Version  : 5.6.0
-Release  : 60
+Release  : 61
 URL      : https://mirrors.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.6.0.tar.xz
 Source0  : https://mirrors.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.6.0.tar.xz
 Summary  : No detailed summary available
