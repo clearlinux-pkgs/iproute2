@@ -1,4 +1,4 @@
-From a8b796de838a14dfc5f7a8db9aca35483f31f537 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ikey Doherty <michael.i.doherty@intel.com>
 Date: Tue, 24 Feb 2015 12:40:55 +0000
 Subject: [PATCH] Only use system-wide defaults directory as config is not
@@ -6,16 +6,15 @@ Subject: [PATCH] Only use system-wide defaults directory as config is not
 
 Signed-off-by: Ikey Doherty <michael.i.doherty@intel.com>
 ---
- Makefile       | 2 +-
- lib/rt_names.c | 2 +-
- tc/m_ematch.c  | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ Makefile      | 2 +-
+ tc/m_ematch.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 67176be..b3b58ef 100644
+index 5bc1147..1184137 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -1,7 +1,7 @@
+@@ -15,7 +15,7 @@ endif
  PREFIX?=/usr
  LIBDIR?=$(PREFIX)/lib
  SBINDIR?=/sbin
@@ -25,10 +24,10 @@ index 67176be..b3b58ef 100644
  NETNS_ETC_DIR?=/etc/netns
  DATADIR?=$(PREFIX)/share
 diff --git a/tc/m_ematch.c b/tc/m_ematch.c
-index 4c3acf8..8ebd1e8 100644
+index 8840a0d..b5d306a 100644
 --- a/tc/m_ematch.c
 +++ b/tc/m_ematch.c
-@@ -26,7 +26,7 @@
+@@ -25,7 +25,7 @@
  #include "tc_util.h"
  #include "m_ematch.h"
  
@@ -37,6 +36,3 @@ index 4c3acf8..8ebd1e8 100644
  
  static struct ematch_util *ematch_list;
  
--- 
-1.9.1
-
