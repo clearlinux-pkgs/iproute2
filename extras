@@ -1,1 +1,4 @@
 /usr/bin/arpd
+# routel is written in python...
+/usr/bin/routel
+/usr/share/man/man8/routel.8

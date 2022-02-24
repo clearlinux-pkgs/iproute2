@@ -4,3 +4,4 @@ libvirt
 linux-oracle
 openvpn
 rsyslog
+slirp4netns

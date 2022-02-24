@@ -4,7 +4,7 @@
 #
 Name     : iproute2
 Version  : 5.16.0
-Release  : 71
+Release  : 72
 URL      : https://mirrors.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.16.0.tar.xz
 Source0  : https://mirrors.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.16.0.tar.xz
 Summary  : No detailed summary available
@@ -57,6 +57,14 @@ Requires: iproute2 = %{version}-%{release}
 dev components for the iproute2 package.
 
 
+%package extras
+Summary: extras components for the iproute2 package.
+Group: Default
+
+%description extras
+extras components for the iproute2 package.
+
+
 %package lib
 Summary: lib components for the iproute2 package.
 Group: Libraries
@@ -102,7 +110,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1641917582
+export SOURCE_DATE_EPOCH=1645723819
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -115,7 +123,7 @@ export CXXFLAGS="$CXXFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1641917582
+export SOURCE_DATE_EPOCH=1645723819
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/iproute2
 cp %{_builddir}/iproute2-5.16.0/COPYING %{buildroot}/usr/share/package-licenses/iproute2/b47456e2c1f38c40346ff00db976a2badf36b5e3
@@ -147,7 +155,6 @@ install -m644 lib/libnetlink.a %{buildroot}%{_libdir}/
 /usr/bin/lnstat
 /usr/bin/nstat
 /usr/bin/rdma
-/usr/bin/routel
 /usr/bin/rtacct
 /usr/bin/rtmon
 /usr/bin/rtstat
@@ -175,6 +182,11 @@ install -m644 lib/libnetlink.a %{buildroot}%{_libdir}/
 /usr/include/iproute2/bpf_elf.h
 /usr/include/libnetlink.h
 /usr/share/man/man3/libnetlink.3
+
+%files extras
+%defattr(-,root,root,-)
+/usr/bin/routel
+/usr/share/man/man8/routel.8
 
 %files lib
 %defattr(-,root,root,-)
@@ -245,7 +257,6 @@ install -m644 lib/libnetlink.a %{buildroot}%{_libdir}/
 /usr/share/man/man8/rdma-statistic.8
 /usr/share/man/man8/rdma-system.8
 /usr/share/man/man8/rdma.8
-/usr/share/man/man8/routel.8
 /usr/share/man/man8/rtacct.8
 /usr/share/man/man8/rtmon.8
 /usr/share/man/man8/rtstat.8
