@@ -4,10 +4,10 @@
 # Using build pattern: configure
 #
 Name     : iproute2
-Version  : 6.3.0
-Release  : 79
-URL      : https://mirrors.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.3.0.tar.xz
-Source0  : https://mirrors.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.3.0.tar.xz
+Version  : 6.4.0
+Release  : 80
+URL      : https://mirrors.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.4.0.tar.xz
+Source0  : https://mirrors.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.4.0.tar.xz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0
@@ -106,32 +106,48 @@ staticdev components for the iproute2 package.
 
 
 %prep
-%setup -q -n iproute2-6.3.0
-cd %{_builddir}/iproute2-6.3.0
-%patch1 -p1
+%setup -q -n iproute2-6.4.0
+cd %{_builddir}/iproute2-6.4.0
+%patch -P 1 -p1
+pushd ..
+cp -a iproute2-6.4.0 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1682961628
+export SOURCE_DATE_EPOCH=1687813374
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz "
-export FCFLAGS="$FFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz "
-export FFLAGS="$FFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz "
-export CXXFLAGS="$CXXFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz "
+export CFLAGS="$CFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FCFLAGS="$FFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FFLAGS="$FFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export CXXFLAGS="$CXXFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 %configure --disable-static
 make  %{?_smp_mflags}
 
+unset PKG_CONFIG_PATH
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
+%configure --disable-static
+make  %{?_smp_mflags}
+popd
 %install
-export SOURCE_DATE_EPOCH=1682961628
+export SOURCE_DATE_EPOCH=1687813374
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/iproute2
 cp %{_builddir}/iproute2-%{version}/COPYING %{buildroot}/usr/share/package-licenses/iproute2/b47456e2c1f38c40346ff00db976a2badf36b5e3 || :
+pushd ../buildavx2/
+%make_install_v3
+popd
 %make_install
 ## install_append content
 install -m 0755 -d %{buildroot}%{_includedir}/
@@ -140,6 +156,7 @@ install -m 0755 -d %{buildroot}%{_libdir}/
 install -m644 include/libnetlink.h %{buildroot}%{_includedir}/
 install -m644 lib/libnetlink.a %{buildroot}%{_libdir}/
 ## install_append end
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -150,6 +167,21 @@ install -m644 lib/libnetlink.a %{buildroot}%{_libdir}/
 
 %files bin
 %defattr(-,root,root,-)
+/V3/usr/bin/bridge
+/V3/usr/bin/dcb
+/V3/usr/bin/devlink
+/V3/usr/bin/genl
+/V3/usr/bin/ifstat
+/V3/usr/bin/ip
+/V3/usr/bin/lnstat
+/V3/usr/bin/nstat
+/V3/usr/bin/rdma
+/V3/usr/bin/rtacct
+/V3/usr/bin/rtmon
+/V3/usr/bin/ss
+/V3/usr/bin/tc
+/V3/usr/bin/tipc
+/V3/usr/bin/vdpa
 /usr/bin/bridge
 /usr/bin/ctstat
 /usr/bin/dcb
@@ -195,6 +227,7 @@ install -m644 lib/libnetlink.a %{buildroot}%{_libdir}/
 
 %files lib
 %defattr(-,root,root,-)
+/V3/usr/lib64/tc/m_xt.so
 /usr/lib64/tc/m_ipt.so
 /usr/lib64/tc/m_xt.so
 
