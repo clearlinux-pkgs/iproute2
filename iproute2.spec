@@ -4,10 +4,10 @@
 # Using build pattern: configure
 #
 Name     : iproute2
-Version  : 6.4.0
-Release  : 80
-URL      : https://mirrors.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.4.0.tar.xz
-Source0  : https://mirrors.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.4.0.tar.xz
+Version  : 6.5.0
+Release  : 81
+URL      : https://mirrors.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.5.0.tar.xz
+Source0  : https://mirrors.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.5.0.tar.xz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0
@@ -106,11 +106,11 @@ staticdev components for the iproute2 package.
 
 
 %prep
-%setup -q -n iproute2-6.4.0
-cd %{_builddir}/iproute2-6.4.0
+%setup -q -n iproute2-6.5.0
+cd %{_builddir}/iproute2-6.5.0
 %patch -P 1 -p1
 pushd ..
-cp -a iproute2-6.4.0 buildavx2
+cp -a iproute2-6.5.0 buildavx2
 popd
 
 %build
@@ -118,30 +118,50 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1687813374
+export SOURCE_DATE_EPOCH=1696429377
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
-export FCFLAGS="$FFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
-export FFLAGS="$FFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
-export CXXFLAGS="$CXXFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+CLEAR_INTERMEDIATE_CFLAGS="$CLEAR_INTERMEDIATE_CFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+CLEAR_INTERMEDIATE_FCFLAGS="$CLEAR_INTERMEDIATE_FFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+CLEAR_INTERMEDIATE_FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+CLEAR_INTERMEDIATE_CXXFLAGS="$CLEAR_INTERMEDIATE_CXXFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+CFLAGS="$CLEAR_INTERMEDIATE_CFLAGS"
+CXXFLAGS="$CLEAR_INTERMEDIATE_CXXFLAGS"
+FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
+FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
+ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
+LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
 %configure --disable-static
 make  %{?_smp_mflags}
 
 unset PKG_CONFIG_PATH
 pushd ../buildavx2/
-export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
-export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
-export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
-export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
-export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
+CFLAGS="$CLEAR_INTERMEDIATE_CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+CXXFLAGS="$CLEAR_INTERMEDIATE_CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS -m64 -march=x86-64-v3 "
+LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3 "
 %configure --disable-static
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1687813374
+export GCC_IGNORE_WERROR=1
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+CLEAR_INTERMEDIATE_CFLAGS="$CLEAR_INTERMEDIATE_CFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+CLEAR_INTERMEDIATE_FCFLAGS="$CLEAR_INTERMEDIATE_FFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+CLEAR_INTERMEDIATE_FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+CLEAR_INTERMEDIATE_CXXFLAGS="$CLEAR_INTERMEDIATE_CXXFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+CFLAGS="$CLEAR_INTERMEDIATE_CFLAGS"
+CXXFLAGS="$CLEAR_INTERMEDIATE_CXXFLAGS"
+FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
+FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
+ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
+LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
+export SOURCE_DATE_EPOCH=1696429377
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/iproute2
 cp %{_builddir}/iproute2-%{version}/COPYING %{buildroot}/usr/share/package-licenses/iproute2/b47456e2c1f38c40346ff00db976a2badf36b5e3 || :
@@ -164,6 +184,15 @@ install -m644 lib/libnetlink.a %{buildroot}%{_libdir}/
 /usr/lib64/tc/normal.dist
 /usr/lib64/tc/pareto.dist
 /usr/lib64/tc/paretonormal.dist
+/usr/usr/share/defaults/iproute2/bpf_pinning
+/usr/usr/share/defaults/iproute2/ematch_map
+/usr/usr/share/defaults/iproute2/group
+/usr/usr/share/defaults/iproute2/nl_protos
+/usr/usr/share/defaults/iproute2/rt_dsfield
+/usr/usr/share/defaults/iproute2/rt_protos
+/usr/usr/share/defaults/iproute2/rt_realms
+/usr/usr/share/defaults/iproute2/rt_scopes
+/usr/usr/share/defaults/iproute2/rt_tables
 
 %files bin
 %defattr(-,root,root,-)
@@ -204,15 +233,6 @@ install -m644 lib/libnetlink.a %{buildroot}%{_libdir}/
 %defattr(-,root,root,-)
 /usr/share/bash-completion/completions/devlink
 /usr/share/bash-completion/completions/tc
-/usr/share/defaults/iproute2/bpf_pinning
-/usr/share/defaults/iproute2/ematch_map
-/usr/share/defaults/iproute2/group
-/usr/share/defaults/iproute2/nl_protos
-/usr/share/defaults/iproute2/rt_dsfield
-/usr/share/defaults/iproute2/rt_protos
-/usr/share/defaults/iproute2/rt_realms
-/usr/share/defaults/iproute2/rt_scopes
-/usr/share/defaults/iproute2/rt_tables
 
 %files dev
 %defattr(-,root,root,-)
@@ -248,6 +268,7 @@ install -m644 lib/libnetlink.a %{buildroot}%{_libdir}/
 /usr/share/man/man8/dcb-ets.8
 /usr/share/man/man8/dcb-maxrate.8
 /usr/share/man/man8/dcb-pfc.8
+/usr/share/man/man8/dcb-rewr.8
 /usr/share/man/man8/dcb.8
 /usr/share/man/man8/devlink-dev.8
 /usr/share/man/man8/devlink-dpipe.8

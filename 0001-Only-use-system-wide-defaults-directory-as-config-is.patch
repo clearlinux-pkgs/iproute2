@@ -1,36 +1,11 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Ikey Doherty <michael.i.doherty@intel.com>
-Date: Tue, 24 Feb 2015 12:40:55 +0000
-Subject: [PATCH] Only use system-wide defaults directory as config is not
- transient
-
-Signed-off-by: Ikey Doherty <michael.i.doherty@intel.com>
----
- Makefile      | 2 +-
- tc/m_ematch.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index 5bc1147..1184137 100644
---- a/Makefile
-+++ b/Makefile
-@@ -15,7 +15,7 @@ endif
+--- iproute2-6.5.0/Makefile~	2023-09-06 16:26:52.000000000 +0000
++++ iproute2-6.5.0/Makefile	2023-10-04 14:20:31.388264543 +0000
+@@ -17,7 +17,7 @@
  PREFIX?=/usr
- LIBDIR?=$(PREFIX)/lib
  SBINDIR?=/sbin
--CONFDIR?=/etc/iproute2
-+CONFDIR?=$(DATADIR)/defaults/iproute2
+ CONF_ETC_DIR?=/etc/iproute2
+-CONF_USR_DIR?=$(PREFIX)/lib/iproute2
++CONF_USR_DIR?=$(PREFIX)/usr/share/defaults/iproute2
  NETNS_RUN_DIR?=/var/run/netns
  NETNS_ETC_DIR?=/etc/netns
  DATADIR?=$(PREFIX)/share
---- iproute2-5.15.0/tc/m_ematch.c~	2021-11-01 23:41:02.000000000 +0000
-+++ iproute2-5.15.0/tc/m_ematch.c	2021-11-04 16:51:56.844161665 +0000
-@@ -25,7 +25,7 @@
- #include "tc_util.h"
- #include "m_ematch.h"
- 
--#define EMATCH_MAP "/etc/iproute2/ematch_map"
-+#define EMATCH_MAP "/usr/share/defaults/iproute2/ematch_map"
- 
- static struct ematch_util *ematch_list;
- 
