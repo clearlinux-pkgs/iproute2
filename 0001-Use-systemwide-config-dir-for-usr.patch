@@ -16,7 +16,7 @@ index 54539ce..7a26c55 100644
  SBINDIR?=/sbin
  CONF_ETC_DIR?=/etc/iproute2
 -CONF_USR_DIR?=$(LIBDIR)/iproute2
-+CONF_USR_DIR?=$(PREFIX)/usr/share/defaults/iproute2
++CONF_USR_DIR?=$(PREFIX)/share/defaults/iproute2
  NETNS_RUN_DIR?=/var/run/netns
  NETNS_ETC_DIR?=/etc/netns
  DATADIR?=$(PREFIX)/share
